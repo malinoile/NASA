@@ -5,7 +5,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 private const val VIDEO_TYPE = "video"
-private const val PHOTO_TYPE = "photo"
+private const val PHOTO_TYPE = "image"
 data class PictureOfDayEntity(
     @SerializedName("title")
     val title: String,
