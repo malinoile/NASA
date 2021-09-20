@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">NASA</string>
     <string name="picture_of_the_day">Фотография дня</string>
+    <string name="themes">Темы</string>
+    <string name="day_night_mode">Смена режима день/ночь</string>
 </resources>

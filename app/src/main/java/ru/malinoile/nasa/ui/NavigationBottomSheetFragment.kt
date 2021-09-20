@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import ru.malinoile.nasa.MainActivity
 import ru.malinoile.nasa.PICTURE_OF_DAY_TAG
 import ru.malinoile.nasa.R
 import ru.malinoile.nasa.databinding.FragmentBottomSheetBinding

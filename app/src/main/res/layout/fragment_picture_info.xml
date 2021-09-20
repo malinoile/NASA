@@ -8,11 +8,11 @@
         android:id="@+id/picture_title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/weak_yellow"
+        android:background="?attr/colorSecondary"
         android:padding="@dimen/half_padding"
         android:singleLine="true"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnSecondary"
         android:textSize="@dimen/big_text"
         android:textStyle="bold|italic" />
 
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/half_padding"
                 android:textAlignment="textEnd"
-                android:textColor="@color/gray"
+                android:textColor="@color/nasa_gray_600"
                 android:textSize="@dimen/small_text_size" />
 
         </LinearLayout>

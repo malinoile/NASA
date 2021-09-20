@@ -15,10 +15,12 @@ class CachePictureOfDayRepositoryImpl(retrofit: Retrofit) : PictureOfDayReposito
         onSuccess: (PictureOfDayEntity) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        Log.d("@@@", "cache")
         pictureOfDay?.let { onSuccess(it) }
             ?: nasaRepository.getPictureOfDay(
-                { picture -> onSuccess(picture) },
+                { picture ->
+                    pictureOfDay = picture
+                    onSuccess(picture)
+                },
                 { throwable -> onError(throwable) }
             )
     }

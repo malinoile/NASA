@@ -15,7 +15,6 @@ class NasaPictureOfDayRepositoryImpl(retrofit: Retrofit) : PictureOfDayRepositor
         onSuccess: (PictureOfDayEntity) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        Log.d("@@@", "nasa")
         service.getPicture().enqueue(object : Callback<PictureOfDayEntity> {
             override fun onResponse(
                 call: Call<PictureOfDayEntity>,
@@ -23,7 +22,6 @@ class NasaPictureOfDayRepositoryImpl(retrofit: Retrofit) : PictureOfDayRepositor
             ) {
                 if (response.isSuccessful) {
                     response.body()?.let {
-                        Log.d("@@@", "onResponse")
                         onSuccess(it)
                     }
                 }
