@@ -19,9 +19,7 @@ class PictureOfDayFragment : Fragment(), PictureOfDayContract.View {
     private var _binding: FragmentPictureOfDayBinding? = null
     private val binding get() = _binding!!
     private val app: MyApplication by lazy { activity?.application as MyApplication }
-    private val presenter: PictureOfDayContract.Presenter by lazy {
-        PictureOfDayPresenter(app.retrofit)
-    }
+    private lateinit var presenter: PictureOfDayContract.Presenter
     private var pictureOfDay: PictureOfDayEntity? = null
 
     override fun onCreateView(
@@ -30,6 +28,7 @@ class PictureOfDayFragment : Fragment(), PictureOfDayContract.View {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPictureOfDayBinding.inflate(inflater)
+        presenter = PictureOfDayPresenter.invoke(app.retrofit)
         presenter.attach(this)
         return binding.root
     }
@@ -38,6 +37,7 @@ class PictureOfDayFragment : Fragment(), PictureOfDayContract.View {
         super.onViewCreated(view, savedInstanceState)
         setClickableImageView(false)
         presenter.getPictureOfDay()
+
 
         binding.pictureOfDayImageView.setOnClickListener {
             pictureOfDay?.let { picture ->
@@ -71,5 +71,4 @@ class PictureOfDayFragment : Fragment(), PictureOfDayContract.View {
     private fun setClickableImageView(clickable: Boolean) {
         binding.pictureOfDayImageView.isClickable = clickable
     }
-
 }
