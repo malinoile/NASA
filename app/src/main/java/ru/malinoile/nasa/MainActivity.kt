@@ -1,10 +1,7 @@
 package ru.malinoile.nasa
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -12,12 +9,15 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import ru.malinoile.nasa.databinding.ActivityMainBinding
-import ru.malinoile.nasa.model.FragmentContract
-import ru.malinoile.nasa.ui.NavigationBottomSheetFragment
-import ru.malinoile.nasa.ui.PictureOfDayFragment
+import ru.malinoile.nasa.model.contracts.FragmentContract
+import ru.malinoile.nasa.ui.fragments.NavigationBottomSheetFragment
+import ru.malinoile.nasa.ui.fragments.PictureOfDayFragment
+import ru.malinoile.nasa.ui.fragments.PicturePagerFragment
+import ru.malinoile.nasa.ui.fragments.RoverPhotoListFragment
 
 private const val THEME_PREFERENCES_KEY = "shared_theme"
 const val PICTURE_OF_DAY_TAG = "picture_of_day"
+const val ROVER_PHOTOS_TAG = "rover_photos"
 
 class MainActivity : AppCompatActivity(), FragmentContract {
     companion object {
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), FragmentContract {
         setContentView(binding.root)
         setSupportActionBar(binding.bottomAppBar)
 
-        setFragment(PictureOfDayFragment(), PICTURE_OF_DAY_TAG)
+        setFragment(PicturePagerFragment(), PICTURE_OF_DAY_TAG)
 
         binding.fab.setOnClickListener {
             changeDayNightMode()
@@ -54,6 +54,10 @@ class MainActivity : AppCompatActivity(), FragmentContract {
         transaction.commit()
     }
 
+    override fun searchFragment(tag: String): Fragment? {
+        return supportFragmentManager.findFragmentByTag(tag)
+    }
+
     private fun changeDayNightMode() {
         val prefs = getPreferences(Context.MODE_PRIVATE)
         val theme = when (prefs.getInt(THEME_PREFERENCES_KEY, THEME_EARTH)) {
@@ -65,8 +69,7 @@ class MainActivity : AppCompatActivity(), FragmentContract {
             putInt(THEME_PREFERENCES_KEY, theme)
             apply()
         }
-        finish()
-        startActivity(intent)
+        recreate()
     }
 
     private fun setCustomTheme() {
@@ -98,4 +101,5 @@ class MainActivity : AppCompatActivity(), FragmentContract {
             DrawableCompat.setTint(it, color)
         }
     }
+
 }

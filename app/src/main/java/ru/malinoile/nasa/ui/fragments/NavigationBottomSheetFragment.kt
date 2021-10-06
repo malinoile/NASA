@@ -1,4 +1,4 @@
-package ru.malinoile.nasa.ui
+package ru.malinoile.nasa.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -7,12 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import ru.malinoile.nasa.MainActivity
 import ru.malinoile.nasa.PICTURE_OF_DAY_TAG
 import ru.malinoile.nasa.R
+import ru.malinoile.nasa.ROVER_PHOTOS_TAG
 import ru.malinoile.nasa.databinding.FragmentBottomSheetBinding
-import ru.malinoile.nasa.model.FragmentContract
-import ru.malinoile.nasa.model.PictureOfDayContract
+import ru.malinoile.nasa.model.contracts.FragmentContract
 
 class NavigationBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetBinding? = null
@@ -36,15 +35,29 @@ class NavigationBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializeNavigationItemListener()
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+
+    private fun initializeNavigationItemListener() {
         binding.bottomSheetNavigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.picture_of_the_day_nav -> {
-                    getContract().setFragment(
-                        requireActivity()
-                            .supportFragmentManager
-                            .findFragmentByTag(PICTURE_OF_DAY_TAG)
-                            ?: PictureOfDayFragment(),
+                    setFragment(
+                        getContract().searchFragment(PICTURE_OF_DAY_TAG)
+                            ?: PicturePagerFragment(),
                         PICTURE_OF_DAY_TAG
+                    )
+                }
+                R.id.rover_photos_nav -> {
+                    setFragment(
+                        getContract().searchFragment(ROVER_PHOTOS_TAG)
+                            ?: RoverPhotoListFragment(),
+                        ROVER_PHOTOS_TAG
                     )
                 }
             }
@@ -53,13 +66,14 @@ class NavigationBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
-
     private fun getContract(): FragmentContract {
         return activity as FragmentContract
+    }
+
+    private fun setFragment(fragment: Fragment, tag: String?) {
+        getContract().apply {
+            setFragment(fragment, tag)
+        }
     }
 
 }

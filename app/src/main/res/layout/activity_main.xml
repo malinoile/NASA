@@ -31,6 +31,4 @@
         app:layout_anchor="@+id/bottom_app_bar"
         app:srcCompat="@drawable/ic_day_night"/>
 
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

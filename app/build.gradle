@@ -18,9 +18,18 @@ android {
     }
 
     buildTypes {
+        Properties properties = new Properties()
+        if (project.rootProject.file('local.properties').canRead()) {
+            properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'NASA_API_KEY', properties.getProperty("API_KEY")
+        }
+        debug {
+            buildConfigField "String", "NASA_API_KEY", properties.getProperty("API_KEY")
         }
     }
     compileOptions {

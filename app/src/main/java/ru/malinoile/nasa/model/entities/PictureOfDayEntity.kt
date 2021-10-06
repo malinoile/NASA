@@ -3,6 +3,7 @@ package ru.malinoile.nasa.model.entities
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlin.coroutines.coroutineContext
 
 private const val VIDEO_TYPE = "video"
 private const val PHOTO_TYPE = "image"
@@ -15,6 +16,8 @@ data class PictureOfDayEntity(
     val url: String?,
     @SerializedName("hdurl")
     val hdUrl: String?,
+    @SerializedName("thumbnail_url")
+    val thumbnailUrl: String?,
     @SerializedName("date")
     val date: String,
     @SerializedName("copyright")
@@ -25,6 +28,7 @@ data class PictureOfDayEntity(
 
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -39,7 +43,7 @@ data class PictureOfDayEntity(
             VIDEO_TYPE -> MediaType.VIDEO
             PHOTO_TYPE -> MediaType.PHOTO
             else -> {
-                throw Throwable("Получен неопознанный тип фотографии дня")
+                throw Throwable("Unknown picture of day type")
             }
         }
     }
@@ -49,6 +53,7 @@ data class PictureOfDayEntity(
         parcel.writeString(description)
         parcel.writeString(url)
         parcel.writeString(hdUrl)
+        parcel.writeString(thumbnailUrl)
         parcel.writeString(date)
         parcel.writeString(author)
         parcel.writeString(type)
