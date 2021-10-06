@@ -1,4 +1,4 @@
-package ru.malinoile.nasa.ui
+package ru.malinoile.nasa.ui.fragments
 
 import android.content.Context
 import android.os.Bundle

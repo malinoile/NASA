@@ -1,7 +1,7 @@
-package ru.malinoile.nasa.ui
+package ru.malinoile.nasa.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,17 +10,34 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import ru.malinoile.nasa.MyApplication
 import ru.malinoile.nasa.databinding.FragmentPictureOfDayBinding
-import ru.malinoile.nasa.model.PictureOfDayContract
+import ru.malinoile.nasa.model.ImageUtils
+import ru.malinoile.nasa.model.contracts.PictureOfDayContract
 import ru.malinoile.nasa.model.entities.MediaType
 import ru.malinoile.nasa.model.entities.PictureOfDayEntity
 import ru.malinoile.nasa.presenter.PictureOfDayPresenter
 
-class PictureOfDayFragment : Fragment(), PictureOfDayContract.View {
+class PictureOfDayFragment : Fragment() {
     private var _binding: FragmentPictureOfDayBinding? = null
     private val binding get() = _binding!!
-    private val app: MyApplication by lazy { activity?.application as MyApplication }
-    private lateinit var presenter: PictureOfDayContract.Presenter
     private var pictureOfDay: PictureOfDayEntity? = null
+
+    companion object {
+        private const val PICTURE_BUNDLE_KEY = "picture.key"
+        fun newInstance(picture: PictureOfDayEntity): PictureOfDayFragment {
+            val fragment = PictureOfDayFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(PICTURE_BUNDLE_KEY, picture)
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        arguments?.let {
+            pictureOfDay = it.getParcelable(PICTURE_BUNDLE_KEY)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,17 +45,15 @@ class PictureOfDayFragment : Fragment(), PictureOfDayContract.View {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPictureOfDayBinding.inflate(inflater)
-        presenter = PictureOfDayPresenter.invoke(app.retrofit)
-        presenter.attach(this)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setClickableImageView(false)
-        presenter.getPictureOfDay()
 
-
+        pictureOfDay?.let {
+            renderPicture(it)
+        }
         binding.pictureOfDayImageView.setOnClickListener {
             pictureOfDay?.let { picture ->
                 PictureOfDayBottomSheetFragment.getInstance(picture).show(
@@ -50,25 +65,25 @@ class PictureOfDayFragment : Fragment(), PictureOfDayContract.View {
 
     override fun onDestroyView() {
         _binding = null
-        presenter.detach()
         super.onDestroyView()
     }
 
-    override fun renderPicture(picture: PictureOfDayEntity) {
-        pictureOfDay = picture
-        if (picture.getMediaType() == MediaType.PHOTO) {
-            Glide.with(this)
-                .load(picture.url)
-                .into(binding.pictureOfDayImageView)
+    private fun renderPicture(picture: PictureOfDayEntity) {
+        ImageUtils.renderImage(
+            requireContext(),
+            getPictureURL(picture),
+            binding.pictureOfDayImageView
+        )
+    }
+
+    private fun getPictureURL(picture: PictureOfDayEntity): String? {
+        return when (picture.getMediaType()) {
+            MediaType.PHOTO -> {
+                picture.url
+            }
+            MediaType.VIDEO -> {
+                picture.thumbnailUrl
+            }
         }
-        setClickableImageView(true)
-    }
-
-    override fun renderErrorToast(msg: String) {
-        Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
-    }
-
-    private fun setClickableImageView(clickable: Boolean) {
-        binding.pictureOfDayImageView.isClickable = clickable
     }
 }

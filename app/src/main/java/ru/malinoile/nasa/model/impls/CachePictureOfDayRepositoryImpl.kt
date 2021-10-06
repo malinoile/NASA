@@ -6,20 +6,20 @@ import ru.malinoile.nasa.model.entities.PictureOfDayEntity
 import ru.malinoile.nasa.model.repos.PictureOfDayRepository
 
 class CachePictureOfDayRepositoryImpl(retrofit: Retrofit) : PictureOfDayRepository {
-    private var pictureOfDay: PictureOfDayEntity? = null
+    private var listPictures: List<PictureOfDayEntity>? = null
     private val nasaRepository: PictureOfDayRepository by lazy {
         NasaPictureOfDayRepositoryImpl(retrofit)
     }
 
-    override fun getPictureOfDay(
-        onSuccess: (PictureOfDayEntity) -> Unit,
+    override fun getPicturesOfDay(
+        onSuccess: (List<PictureOfDayEntity>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        pictureOfDay?.let { onSuccess(it) }
-            ?: nasaRepository.getPictureOfDay(
-                { picture ->
-                    pictureOfDay = picture
-                    onSuccess(picture)
+        listPictures?.let { onSuccess(it) }
+            ?: nasaRepository.getPicturesOfDay(
+                { list ->
+                    listPictures = list
+                    onSuccess(list)
                 },
                 { throwable -> onError(throwable) }
             )

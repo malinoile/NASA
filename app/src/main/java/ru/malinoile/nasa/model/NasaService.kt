@@ -2,11 +2,21 @@ package ru.malinoile.nasa.model
 
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Query
+import ru.malinoile.nasa.model.entities.NasaRoverPhotoListEntity
 import ru.malinoile.nasa.model.entities.PictureOfDayEntity
+import ru.malinoile.nasa.model.entities.RoverPhotoEntity
 
-private const val PICTURE_OF_DAY_SUB_URL = "planetary/apod"
-private const val API_KEY = "cKMqOEsfo8mB4KPaRe6mWf4LXadS44jjSpHU4QiU"
 interface NasaService {
-    @GET("$PICTURE_OF_DAY_SUB_URL?api_key=$API_KEY")
-    fun getPicture(): Call<PictureOfDayEntity>
+    @GET("planetary/apod?thumbs=true")
+    fun getPictures(
+        @Query("start_date") startDate: String,
+        @Query("api_key") apiKey: String
+    ): Call<List<PictureOfDayEntity>>
+
+    @GET("mars-photos/api/v1/rovers/curiosity/photos")
+    fun getRoverPhotos(
+        @Query("sol") sol: Int,
+        @Query("api_key") apiKey: String
+    ): Call<NasaRoverPhotoListEntity>
 }

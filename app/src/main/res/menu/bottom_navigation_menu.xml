@@ -6,4 +6,10 @@
         android:id="@+id/picture_of_the_day_nav"
         android:icon="@drawable/ic_picture"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:title="@string/rover_curiosity_photos"
+        android:id="@+id/rover_photos_nav"
+        android:icon="@drawable/ic_picture"
+        app:showAsAction="ifRoom"/>
 </menu>
