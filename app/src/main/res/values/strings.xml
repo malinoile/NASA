@@ -5,6 +5,7 @@
     <string name="day_night_mode">Смена режима день/ночь</string>
     <string name="write_sol">Введите интересующий сол</string>
     <string name="load">Загрузить</string>
-    <string name="rover_curiosity_photos">Фотографии с марсохода \"Curiosity\"</string>
+    <string name="rover_curiosity_photos">Марсоход \"Curiosity\"</string>
     <string name="error_msg">Возникла ошибка при получении фотографий дня</string>
+    <string name="settings">Настройки</string>
 </resources>

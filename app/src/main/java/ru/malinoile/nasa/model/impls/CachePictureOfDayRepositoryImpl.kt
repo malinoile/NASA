@@ -1,6 +1,5 @@
 package ru.malinoile.nasa.model.impls
 
-import android.util.Log
 import retrofit2.Retrofit
 import ru.malinoile.nasa.model.entities.PictureOfDayEntity
 import ru.malinoile.nasa.model.repos.PictureOfDayRepository
