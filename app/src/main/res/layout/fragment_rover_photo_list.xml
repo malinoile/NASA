@@ -5,23 +5,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/sol_edit_layout"
+    <TextView
+        android:id="@+id/enter_date_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:errorEnabled="true"
+        android:background="@color/nasa_light_gray"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:textSize="@dimen/default_text_size"
+        android:hint="@string/write_date"
+        android:padding="@dimen/default_padding"
         android:layout_marginHorizontal="@dimen/half_padding"
         android:layout_marginTop="@dimen/half_padding"
-        android:layout_marginBottom="@dimen/default_padding"
-        android:hint="@string/write_sol">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/sol_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_marginBottom="@dimen/default_padding"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/photo_list_recycler_view"

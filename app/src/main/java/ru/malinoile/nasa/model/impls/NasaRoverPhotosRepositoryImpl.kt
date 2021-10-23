@@ -15,11 +15,11 @@ class NasaRoverPhotosRepositoryImpl(retrofit: Retrofit) : RoverPhotosRepository 
     private val service = retrofit.create(NasaService::class.java)
 
     override fun getRoverPhotoList(
-        sol: Int,
+        date: String,
         onSuccess: (List<RoverPhotoEntity>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        service.getRoverPhotos(sol, BuildConfig.NASA_API_KEY).enqueue(object : Callback<NasaRoverPhotoListEntity> {
+        service.getRoverPhotos(date, BuildConfig.NASA_API_KEY).enqueue(object : Callback<NasaRoverPhotoListEntity> {
             override fun onResponse(
                 call: Call<NasaRoverPhotoListEntity>,
                 response: Response<NasaRoverPhotoListEntity>
