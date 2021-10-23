@@ -1,7 +1,10 @@
 package ru.malinoile.nasa.presenter
 
+import android.annotation.SuppressLint
 import ru.malinoile.nasa.model.contracts.RoverPhotosContract
 import ru.malinoile.nasa.model.repos.RoverPhotosRepository
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RoverPhotosPresenter(private val repository: RoverPhotosRepository) :
     RoverPhotosContract.Presenter {
@@ -11,17 +14,19 @@ class RoverPhotosPresenter(private val repository: RoverPhotosRepository) :
         this.view = view
     }
 
-    override fun onLoadPhotos(sol: Int) {
-        view?.setFocusable(false)
-        repository.getRoverPhotoList(sol, {
+    @SuppressLint("SimpleDateFormat")
+    override fun onLoadPhotos(date: Long) {
+        view?.setClickable(false)
+        val currentDate = SimpleDateFormat("yyyy-MM-dd").format(Date(date))
+        repository.getRoverPhotoList(currentDate, {
             view?.apply {
                 renderList(it)
-                setFocusable(true)
+                setClickable(true)
             }
         }, {
             view?.apply {
                 renderErrorMessage(it.message.toString())
-                setFocusable(true)
+                setClickable(true)
             }
         })
     }

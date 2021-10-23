@@ -3,9 +3,9 @@
     <string name="picture_of_the_day">Фотография дня</string>
     <string name="themes">Темы</string>
     <string name="day_night_mode">Смена режима день/ночь</string>
-    <string name="write_sol">Введите интересующий сол</string>
     <string name="load">Загрузить</string>
     <string name="rover_curiosity_photos">Марсоход \"Curiosity\"</string>
     <string name="error_msg">Возникла ошибка при получении фотографий дня</string>
     <string name="settings">Настройки</string>
+    <string name="write_date">Укажите интересующую дату</string>
 </resources>

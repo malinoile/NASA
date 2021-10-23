@@ -6,11 +6,11 @@ interface RoverPhotosContract {
     interface View {
         fun renderList(list: List<RoverPhotoEntity>)
         fun renderErrorMessage(msg: String)
-        fun setFocusable(isFocusable: Boolean)
+        fun setClickable(isClickable: Boolean)
     }
     interface Presenter {
         fun attach(view: View)
-        fun onLoadPhotos(sol: Int)
+        fun onLoadPhotos(date: Long)
         fun detach()
     }
 }

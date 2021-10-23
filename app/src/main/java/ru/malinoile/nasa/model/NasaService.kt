@@ -16,7 +16,7 @@ interface NasaService {
 
     @GET("mars-photos/api/v1/rovers/curiosity/photos")
     fun getRoverPhotos(
-        @Query("sol") sol: Int,
+        @Query("earth_date") date: String,
         @Query("api_key") apiKey: String
     ): Call<NasaRoverPhotoListEntity>
 }

@@ -12,7 +12,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.datepicker.MaterialDatePicker
 import ru.malinoile.nasa.MyApplication
+import ru.malinoile.nasa.R
 import ru.malinoile.nasa.databinding.FragmentRoverPhotoListBinding
 import ru.malinoile.nasa.model.contracts.FragmentContract
 import ru.malinoile.nasa.model.contracts.RoverPhotosContract
@@ -20,6 +22,8 @@ import ru.malinoile.nasa.model.entities.RoverPhotoEntity
 import ru.malinoile.nasa.presenter.RoverPhotosPresenter
 import ru.malinoile.nasa.ui.RoverPhotoListAdapter
 import java.lang.RuntimeException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RoverPhotoListFragment : Fragment(), RoverPhotosContract.View {
     private var _binding: FragmentRoverPhotoListBinding? = null
@@ -33,7 +37,7 @@ class RoverPhotoListFragment : Fragment(), RoverPhotosContract.View {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(activity !is FragmentContract) {
+        if (activity !is FragmentContract) {
             throw RuntimeException("Activity must implement FragmentContract")
         }
     }
@@ -51,6 +55,7 @@ class RoverPhotoListFragment : Fragment(), RoverPhotosContract.View {
         return binding.root
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -61,13 +66,15 @@ class RoverPhotoListFragment : Fragment(), RoverPhotosContract.View {
             adapter = roverAdapter
         }
 
-        binding.solEditText.setOnFocusChangeListener { _, b ->
-            if(!b) {
-                val sol = binding.solEditText.text.toString().toInt()
-                presenter.onLoadPhotos(sol)
-            } else {
-                setErrorTextOfEditLayout(null)
+        binding.enterDateTextView.setOnClickListener {
+            val datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText(requireContext().getString(R.string.write_date))
+                .build()
+            datePicker.addOnPositiveButtonClickListener {
+                presenter.onLoadPhotos(it)
+                binding.enterDateTextView.text = SimpleDateFormat("dd MMMM yyyy").format(Date(it))
             }
+            datePicker.show(requireActivity().supportFragmentManager, null)
         }
 
         listRoverPhotos?.let {
@@ -88,12 +95,10 @@ class RoverPhotoListFragment : Fragment(), RoverPhotosContract.View {
 
     override fun renderErrorMessage(msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-        setErrorTextOfEditLayout(msg)
     }
 
-    override fun setFocusable(isFocusable: Boolean) {
-        binding.solEditText.isFocusable = isFocusable
-        binding.solEditText.isClickable = isFocusable
+    override fun setClickable(isClickable: Boolean) {
+        binding.enterDateTextView.isClickable = isClickable
     }
 
     private fun getContract(): FragmentContract {
@@ -106,10 +111,6 @@ class RoverPhotoListFragment : Fragment(), RoverPhotosContract.View {
             setList(list)
             notifyDataSetChanged()
         }
-    }
-
-    private fun setErrorTextOfEditLayout(msg: String?) {
-        binding.solEditLayout.error = msg
     }
 
 }

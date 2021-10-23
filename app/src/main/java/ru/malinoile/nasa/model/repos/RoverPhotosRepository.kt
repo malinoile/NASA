@@ -4,7 +4,7 @@ import ru.malinoile.nasa.model.entities.RoverPhotoEntity
 
 interface RoverPhotosRepository {
     fun getRoverPhotoList(
-        sol: Int,
+        date: String,
         onSuccess: (List<RoverPhotoEntity>) -> Unit,
         onError: (Throwable) -> Unit
     )
