@@ -15,7 +15,6 @@ import ru.malinoile.nasa.model.contracts.FragmentContract
 import ru.malinoile.nasa.ui.fragments.PicturePagerFragment
 import ru.malinoile.nasa.ui.fragments.RoverPhotoListFragment
 
-private const val THEME_PREFERENCES_KEY = "shared_theme"
 const val PICTURE_OF_DAY_TAG = "picture_of_day"
 const val ROVER_PHOTOS_TAG = "rover_photos"
 
@@ -23,6 +22,7 @@ class MainActivity : AppCompatActivity(), FragmentContract {
     private var isMenuExpanded = false
 
     companion object {
+        const val THEME_PREFERENCES_KEY = "shared_theme"
         private const val THEME_EARTH = 1
         private const val THEME_EARTH_DARK = 2
         private const val NAVIGATION_DURATION = 300L
@@ -81,7 +81,6 @@ class MainActivity : AppCompatActivity(), FragmentContract {
     }
 
     private fun expandMenu() {
-        Log.d("@@@", "expandMenu")
         isMenuExpanded = true
 
         ObjectAnimator.ofFloat(binding.optionSettings, "translationY", -150f).start()
@@ -129,14 +128,18 @@ class MainActivity : AppCompatActivity(), FragmentContract {
             .alpha(alpha)
             .setDuration(NAVIGATION_DURATION)
             .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animation: Animator) {
+                    if (alpha > 0) {
+                        view.visibility = View.VISIBLE
+                    }
+                }
+
                 override fun onAnimationEnd(animation: Animator) {
                     view.isClickable = isMenuExpanded
                     clickListener?.let { listener ->
                         view.setOnClickListener { listener(it) }
                     } ?: view.setOnClickListener(null)
-                    if (alpha > 0) {
-                        view.visibility = View.VISIBLE
-                    } else {
+                    if (alpha == 0f) {
                         view.visibility = View.INVISIBLE
                     }
                 }
