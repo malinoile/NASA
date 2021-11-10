@@ -13,8 +13,7 @@
         android:singleLine="true"
         android:textAlignment="center"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="@dimen/big_text"
-        android:textStyle="bold|italic" />
+        android:textSize="@dimen/big_text"/>
 
     <ScrollView
         android:layout_width="match_parent"

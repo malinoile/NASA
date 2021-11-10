@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -65,6 +66,8 @@ class RoverPhotoListFragment : Fragment(), RoverPhotosContract.View {
             setHasFixedSize(false)
             adapter = roverAdapter
         }
+        val typeFace = ResourcesCompat.getFont(requireContext(), R.font.marvel_bold)
+        binding.enterDateTextView.typeface = typeFace
 
         binding.enterDateTextView.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.datePicker()
