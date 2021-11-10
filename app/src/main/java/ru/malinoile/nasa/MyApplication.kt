@@ -1,6 +1,7 @@
 package ru.malinoile.nasa
 
 import android.app.Application
+import androidx.core.content.res.ResourcesCompat
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.malinoile.nasa.model.impls.CachePictureOfDayRepositoryImpl

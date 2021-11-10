@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import ru.malinoile.nasa.databinding.ActivityMainBinding
 import ru.malinoile.nasa.model.contracts.FragmentContract
@@ -35,6 +36,11 @@ class MainActivity : AppCompatActivity(), FragmentContract {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setFabMenu()
+
+        val typeFace = ResourcesCompat.getFont(this, R.font.marvel_bold)
+        binding.navCuriosityTextView.typeface = typeFace
+        binding.navPictureTextView.typeface = typeFace
+        binding.navSettingsTextView.typeface = typeFace
 
         setFragment(PicturePagerFragment(), PICTURE_OF_DAY_TAG)
     }

@@ -1,11 +1,17 @@
 package ru.malinoile.nasa.ui.fragments
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import ru.malinoile.nasa.R
 import ru.malinoile.nasa.databinding.FragmentPictureInfoBinding
 import ru.malinoile.nasa.model.entities.PictureOfDayEntity
 
@@ -46,7 +52,23 @@ class PictureOfDayBottomSheetFragment : BottomSheetDialogFragment() {
         picture?.let {
             binding.pictureTitleTextView.text = it.title
             binding.pictureDescTextView.text = it.description
-            binding.pictureAuthorTextView.text = "© ${it.author}"
+            val copyrightStr = SpannableStringBuilder()
+                .append("@ ")
+                .append(it.author ?: "-") //иногда прилетает null, несмотря на то, что String
+                .append(
+                    " (${it.date})",
+                    ForegroundColorSpan(Color.BLACK),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+            binding.pictureAuthorTextView.text = copyrightStr
+        }
+
+        val typeFace = ResourcesCompat.getFont(requireContext(), R.font.marvel_bold)
+        with(binding) {
+            pictureTitleTextView.typeface = typeFace
+            pictureDescTextView.typeface = typeFace
+            pictureAuthorTextView.typeface = typeFace
         }
     }
 
